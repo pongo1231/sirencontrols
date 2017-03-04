@@ -1,14 +1,14 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using CitizenFX.Core.UI;
 using System.Threading.Tasks;
+using static SirenControls.Holder;
 
-namespace CopCarControls {
+namespace SirenControls {
     class BlipSiren : BaseScript {
         private int hotkeyWarmup;
 
         public BlipSiren() {
-            EntityDecoration.RegisterProperty(Holder.BLIPSIREN_PNAME, DecorationType.Bool);
+            EntityDecoration.RegisterProperty(BLIPSIREN_PNAME, DecorationType.Bool);
 
             Tick += OnTick;
         }
@@ -20,9 +20,9 @@ namespace CopCarControls {
             }
 
             Vehicle playerCar = playerPed.CurrentVehicle;
-            if (playerCar != null /*&& playerCar.HasSiren*/) {
-                if (Game.IsControlPressed(1, Holder.SILENTSIREN_HOTKEY)) {
-                    if (hotkeyWarmup < Holder.SILENTHOTKEY_MAXTIMEOUT) {
+            if (playerCar != null) {
+                if (Game.IsControlPressed(1, SILENTSIREN_HOTKEY)) {
+                    if (hotkeyWarmup < SILENTHOTKEY_MAXTIMEOUT) {
                         hotkeyWarmup++;
                         return;
                     }
@@ -40,14 +40,14 @@ namespace CopCarControls {
         }
 
         private void SetBlipSirenActivated(Vehicle car, bool state) {
-            EntityDecoration.Set(car, Holder.BLIPSIREN_PNAME, state);
+            EntityDecoration.Set(car, BLIPSIREN_PNAME, state);
         }
 
         private bool IsBlipSirenActivated(Vehicle car) {
-            if (!EntityDecoration.ExistOn(car, Holder.BLIPSIREN_PNAME)) {
+            if (!EntityDecoration.ExistOn(car, BLIPSIREN_PNAME)) {
                 return false;
             } else {
-                return EntityDecoration.Get<bool>(car, Holder.BLIPSIREN_PNAME);
+                return EntityDecoration.Get<bool>(car, BLIPSIREN_PNAME);
             }
         }
 

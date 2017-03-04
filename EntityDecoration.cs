@@ -6,7 +6,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using System;
 
-namespace CopCarControls {
+namespace SirenControls {
     public enum DecorationType {
         Float = 1,
         Bool = 2,

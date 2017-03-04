@@ -1,12 +1,13 @@
 ﻿using CitizenFX.Core;
 using System.Threading.Tasks;
+using static SirenControls.Holder;
 
-namespace CopCarControls {
+namespace SirenControls {
     public class SilentSirens : BaseScript {
         private int hotkeyTimeout;
 
         public SilentSirens() {
-            EntityDecoration.RegisterProperty(Holder.SILENTSIREN_PNAME, DecorationType.Bool);
+            EntityDecoration.RegisterProperty(SILENTSIREN_PNAME, DecorationType.Bool);
 
             Tick += OnTick;
         }
@@ -18,11 +19,11 @@ namespace CopCarControls {
             }
 
             Vehicle playerCar = playerPed.CurrentVehicle;
-            if (playerCar != null /*&& playerCar.HasSiren*/) {
-                if (Game.IsControlPressed(1, Holder.SILENTSIREN_HOTKEY)) {
+            if (playerCar != null) {
+                if (Game.IsControlPressed(1, SILENTSIREN_HOTKEY)) {
                     hotkeyTimeout++;
                 } else {
-                    if (hotkeyTimeout > 0 && hotkeyTimeout < Holder.SILENTHOTKEY_MAXTIMEOUT) {
+                    if (hotkeyTimeout > 0 && hotkeyTimeout < SILENTHOTKEY_MAXTIMEOUT) {
                         SetSirenMuted(playerCar, !IsSirenMuted(playerCar));
                         playerCar.IsSirenActive = true;
                     }
@@ -37,15 +38,7 @@ namespace CopCarControls {
         }
 
         private void SetSirenMuted(Vehicle car, bool state) {
-            EntityDecoration.Set(car, Holder.SILENTSIREN_PNAME, state);
-        }
-
-        private bool IsSirenMuted(Vehicle car) {
-            if (!EntityDecoration.ExistOn(car, Holder.SILENTSIREN_PNAME)) {
-                return false;
-            } else {
-                return EntityDecoration.Get<bool>(car, Holder.SILENTSIREN_PNAME);
-            }
+            EntityDecoration.Set(car, SILENTSIREN_PNAME, state);
         }
 
         private void CheckForSilentSirens() {
